@@ -1,216 +1,216 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>HealthcareDeepfake: Pathological Speech Deepfake Samples</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="HealthcareDeepfake project page with real vs generated audio samples loaded from manifest.js" />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthCareFake: Pathological Speech Deepfake Samples</title>
   <style>
-    :root{
-      --bg:#ffffff;
-      --text:#111827;
-      --muted:#4b5563;
-      --link:#2563eb;
-      --border:#e5e7eb;
-      --panel:#f9fafb;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #fafbfc;
+      color: #1a202c;
+      line-height: 1.5;
+      padding: 20px;
     }
-    html,body{margin:0; padding:0; background:var(--bg); color:var(--text);
-      font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans";}
-    .wrap{max-width:980px; margin:0 auto; padding:28px 18px 56px;}
-    h1{font-size:28px; line-height:1.2; margin:0 0 10px; text-align:center;}
-
-    /* "Paper, Dataset, Code" as non-clickable text with tooltip */
-    .links{ text-align:center; margin:4px 0 10px; }
-    .soon{
-      position:relative;
-      display:inline-block;
-      color:var(--link);
-      cursor:help;
-      padding:0 2px;
-      user-select:none;
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
     }
-    .soon:hover{ text-decoration:underline; }
-    .soon::after{
-      content:"Will be coming soon";
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:130%;
-      background:#111827;
-      color:#fff;
-      font-size:12px;
-      padding:6px 8px;
-      border-radius:8px;
-      white-space:nowrap;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .12s ease;
-      box-shadow:0 8px 20px rgba(0,0,0,.15);
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 24px 40px;
+      text-align: center;
     }
-    .soon::before{
-      content:"";
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:118%;
-      border:6px solid transparent;
-      border-top-color:#111827;
-      opacity:0;
-      transition:opacity .12s ease;
-      pointer-events:none;
+    .title { font-size: 28px; font-weight: 700; margin-bottom: 4px; line-height: 1.2; }
+    .conference-tag { font-size: 20px; opacity: 0.95; font-weight: 500; margin-top: 10px; }
+    .content { padding: 40px; }
+    .tldr-section { margin-bottom: 32px; }
+    .tldr-title { font-size: 18px; font-weight: 600; color: #2d3748; margin-bottom: 12px; }
+    .tldr-text { font-size: 15px; color: #4a5568; margin-bottom: 20px; }
+    .download-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #4299e1; color: white; padding: 12px 24px;
+      border-radius: 8px; text-decoration: none; font-weight: 500;
+      font-size: 15px; transition: background 0.2s;
     }
-    .soon:hover::after,
-    .soon:hover::before{ opacity:1; }
-
-    .conf{ text-align:center; font-style:italic; color:var(--muted); margin:4px 0 14px; }
-    .tldr{ margin:0 0 18px; }
-    h2{ font-size:20px; margin:24px 0 10px; padding-bottom:8px; border-bottom:1px solid var(--border); }
-    p{ margin:10px 0; }
-    .note{ color:var(--muted); }
-
-    .tablewrap{
-      overflow:auto;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:#fff;
+    .download-btn:hover { background: #3182ce; }
+    .samples-section { margin-bottom: 40px; }
+    .samples-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #2d3748; }
+    .samples-desc { color: #4a5568; margin-bottom: 24px; font-size: 15px; }
+    table {
+      width: 100%; border-collapse: collapse; background: white;
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      font-size: 14px;
     }
-    table{ border-collapse:collapse; width:100%; min-width:900px; }
-    th, td{
-      border-bottom:1px solid var(--border);
-      padding:10px;
-      text-align:left;
-      vertical-align:middle;
-      white-space:nowrap;
+    th {
+      background: #f7fafc; padding: 16px 12px; text-align: left;
+      font-weight: 600; color: #4a5568; font-size: 13px;
+      text-transform: uppercase; letter-spacing: 0.5px;
     }
-    th{ background:var(--panel); font-weight:600; }
-    audio{ width:240px; max-width:100%; }
-
-    .audio-pill{
-      display:inline-flex;
-      align-items:center;
-      padding:8px 10px;
-      border-radius:999px;
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
+    td { padding: 16px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+    tr:hover { background: #f8faff; }
+    .audio-cell { width: 140px; }
+    audio { width: 100%; height: 32px; border-radius: 6px; }
+    .lang-pill {
+      display: inline-block; background: #e6fffa; color: #00a28b;
+      padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;
     }
-    .audio-pill audio{ width:230px; }
-    .small{ font-size:13px; color:var(--muted); }
-    code{ background:#f3f4f6; padding:2px 6px; border-radius:6px; }
+    .footer {
+      background: #f7fafc; padding: 24px 40px; text-align: center;
+      font-size: 14px; color: #718096; border-top: 1px solid #e2e8f0;
+    }
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .header { padding: 20px 20px; }
+      .title { font-size: 24px; }
+      .content { padding: 24px 20px; }
+      .audio-cell { width: 120px; }
+      audio { height: 28px; }
+    }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <h1>HealthcareDeepfake: Pathological Speech Deepfake Samples</h1>
-
-    <!-- Not links; hover shows tooltip -->
-    <div class="links" aria-label="links coming soon">
-      <span class="soon" tabindex="0" title="Will be coming soon">Paper</span>,
-      <span class="soon" tabindex="0" title="Will be coming soon">Dataset</span>,
-      <span class="soon" tabindex="0" title="Will be coming soon">Code</span>
+  <div class="container">
+    <div class="header">
+      <div class="title">HealthCareFake: Pathological Speech Deepfake Samples</div>
+      <div class="conference-tag">ACL 2026</div>
     </div>
 
-    <div class="conf">ACL 2026</div>
+    <div class="content">
+      <div class="tldr-section">
+        <div class="tldr-title">TL;DR</div>
+        <div class="tldr-text">
+          We release real and codec-generated samples for deepfake detection under pathological speech conditions.
+        </div>
+        <a href="#" class="download-btn">📦 Dataset will be available on Hugging Face</a>
+      </div>
 
-    <p class="tldr">
-      <b>TL;DR:</b> We provide bona fide and codec-generated speech samples for deepfake detection under pathological speech conditions.
-    </p>
+      <div class="samples-section">
+        <div class="samples-title">Fake and Real Speech Samples</div>
+        <div class="samples-desc">
+          Each ground truth recording is paired with its deepfake version from clinical datasets.
+        </div>
 
-    <h2>Dataset Download</h2>
-    <p class="note">HealthcareDeepfake will be available on <span class="soon" title="Will be coming soon">Huggingface</span>.</p>
-
-    <h2>Fake and Real Speech Samples</h2>
-    <p class="note">
-      We show example audio pairs: a ground truth (bona fide) recording and a codec-generated version, along with the clinical condition.
-    </p>
-
-    <div class="tablewrap">
-      <table aria-label="Fake and Real Speech Samples">
-        <thead>
-          <tr>
-            <th>Codec Model Used</th>
-            <th>GT File ID</th>
-            <th>GT Speech</th>
-            <th>Generated Speech</th>
-            <th>Clinical Condition</th>
-          </tr>
-        </thead>
-        <tbody id="tbody">
-          <tr><td colspan="5" class="small">Loading manifest…</td></tr>
-        </tbody>
-      </table>
+        <table>
+          <thead>
+            <tr>
+              <th>Codec Model Used</th>
+              <th>GT File ID</th>
+              <th>GT Speech</th>
+              <th>Generated Speech</th>
+              <th>Clinical Condition</th>
+            </tr>
+          </thead>
+          <tbody id="samples-tbody"></tbody>
+        </table>
+      </div>
     </div>
 
-    <h2>Acknowledgement</h2>
-    <p class="note">Add acknowledgements / licenses for the clinical speech datasets used.</p>
-
-    <p class="small">© Anonymous authors</p>
+    <div class="footer">
+      Acknowledgment: Built using clinical datasets. © 2026 Authors
+    </div>
   </div>
 
-  <!-- Load manifest.js -->
-  <script src="audio/manifest.js"></script>
-
   <script>
-    function audioCell(src){
-      const td = document.createElement("td");
-      if(!src){
-        td.textContent = "—";
-        td.className = "small";
-        return td;
-      }
-      const wrap = document.createElement("div");
-      wrap.className = "audio-pill";
-      const a = document.createElement("audio");
-      a.controls = true;
-      a.preload = "none";
-      a.src = src;
-      wrap.appendChild(a);
-      td.appendChild(wrap);
-      return td;
-    }
+    // ✅ Put your actual manifest filename/path here.
+    // If your file is named "menifest.js", change it to "./menifest.js"
+    const MANIFEST_SRC = "audio/manifest.js";
 
-    function textCell(txt){
-      const td = document.createElement("td");
-      td.textContent = txt ?? "";
-      return td;
-    }
-
-    function loadFromManifestJS(){
-      const tbody = document.getElementById("tbody");
-
-      if(!Array.isArray(window.MANIFEST_RAW)){
-        tbody.innerHTML = `
-          <tr><td colspan="5" class="small">
-            <b>Manifest not found.</b><br/>
-            Expected <code>audio/manifest.js</code> to define <code>window.MANIFEST_RAW = [...]</code>.
-          </td></tr>`;
-        return;
-      }
-
-      const rows = window.MANIFEST_RAW;
-
+    function showTableMessage(msg, color = "#e53e3e") {
+      const tbody = document.getElementById("samples-tbody");
       tbody.innerHTML = "";
-      if(rows.length === 0){
-        tbody.innerHTML = `<tr><td colspan="5" class="small">No rows in manifest.</td></tr>`;
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.colSpan = 5;
+      td.style.color = color;
+      td.style.whiteSpace = "pre-wrap";
+      td.textContent = msg;
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+    }
+
+    function renderFromManifest() {
+      const manifest = Array.isArray(window.MANIFEST_RAW) ? window.MANIFEST_RAW : null;
+
+      if (!manifest) {
+        showTableMessage(
+          "manifest.js loaded, but window.MANIFEST_RAW is not set.\n" +
+          "Fix manifest.js to include: window.MANIFEST_RAW = [ ... ];"
+        );
         return;
       }
 
-      for(const r of rows){
-        // expected fields in each row:
-        // codec, gt_id (or id), gt_url, gen_url, condition
-        // extra fields (split/protocol/speaker_id/lang etc.) can exist but are not shown.
+      if (manifest.length === 0) {
+        showTableMessage("MANIFEST_RAW exists, but it is empty.", "#718096");
+        return;
+      }
+
+      const tbody = document.getElementById("samples-tbody");
+      tbody.innerHTML = "";
+
+      for (const item of manifest) {
+        // ✅ only use the 5 fields needed for the table UI
+        const codec = item.codec;
+        const gt_id = item.gt_id;
+        const gt_url = item.gt_url;
+        const gen_url = item.gen_url;
+        const condition = item.condition;
+
         const tr = document.createElement("tr");
-        tr.appendChild(textCell(r.codec || ""));
-        tr.appendChild(textCell(r.gt_id || r.id || ""));
-        tr.appendChild(audioCell(r.gt_url));
-        tr.appendChild(audioCell(r.gen_url));
-        tr.appendChild(textCell(r.condition || ""));
+        tr.innerHTML = `
+          <td>${escapeHtml(codec || "—")}</td>
+          <td>${escapeHtml(gt_id || "—")}</td>
+          <td class="audio-cell">
+            ${gt_url ? `<audio controls preload="none"><source src="${escapeAttr(gt_url)}" type="audio/wav"></audio>`
+                    : `<span style="color:#a0aec0">Missing</span>`}
+          </td>
+          <td class="audio-cell">
+            ${gen_url ? `<audio controls preload="none"><source src="${escapeAttr(gen_url)}" type="audio/wav"></audio>`
+                     : `<span style="color:#a0aec0">Missing</span>`}
+          </td>
+          <td><span class="lang-pill">${escapeHtml(condition || "—")}</span></td>
+        `;
         tbody.appendChild(tr);
       }
     }
 
-    loadFromManifestJS();
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+    function escapeAttr(str) { return escapeHtml(str); }
+
+    // Load manifest dynamically so we can report the exact URL and errors
+    (function loadManifest() {
+      const s = document.createElement("script");
+      s.src = MANIFEST_SRC;
+      s.onload = () => {
+        console.log("✅ Loaded:", s.src);
+        console.log("window.MANIFEST_RAW =", window.MANIFEST_RAW);
+        renderFromManifest();
+      };
+      s.onerror = () => {
+        showTableMessage(
+          "❌ Failed to load manifest script.\n" +
+          "Tried URL: " + s.src + "\n\n" +
+          "Fix: set MANIFEST_SRC to the correct path/filename.\n" +
+          "Example: './menifest.js' or './js/manifest.js'"
+        );
+      };
+      document.body.appendChild(s);
+    })();
   </script>
 </body>
 </html>

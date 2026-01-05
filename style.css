@@ -1,0 +1,214 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #fafbfc;
+  color: #1a202c;
+  line-height: 1.5;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 18px 36px;  /* ← Adjust these 2 numbers for height */
+  text-align: center;
+}
+
+.title {
+  font-size: 26px;     /* ← Main title font size */
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.conference-tag {
+  font-size: 13px;     /* ← ACL 2026 font size */
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+.nav-box {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 10px 20px;  /* ← Adjust padding for box size */
+  margin: 12px auto 0;
+  max-width: 380px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.95);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.25);  /* ← Individual button hover only */
+  color: white;
+}
+
+
+
+.content {
+  padding: 40px;
+}
+
+.tldr-section {
+  margin-bottom: 32px;
+}
+
+.tldr-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 12px;
+}
+
+.tldr-text {
+  font-size: 15px;
+  color: #4a5568;
+  margin-bottom: 20px;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #4299e1;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.download-btn:hover {
+  background: #3182ce;
+}
+
+.samples-section {
+  margin-bottom: 40px;
+}
+
+.samples-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2d3748;
+}
+
+.samples-desc {
+  color: #4a5568;
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  font-size: 14px;
+}
+
+th {
+  background: #f7fafc;
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 16px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+tr:hover {
+  background: #f8faff;
+}
+
+.audio-cell {
+  width: 140px;
+}
+
+audio {
+  width: 100%;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.lang-pill {
+  display: inline-block;
+  background: #e6fffa;
+  color: #00a28b;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.footer {
+  background: #f7fafc;
+  padding: 24px 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #718096;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 20px 20px; }
+  .title { font-size: 24px; }
+  .content { padding: 24px 20px; }
+  .nav-box { margin: 16px auto 0; padding: 10px 16px; }
+  .nav-link { font-size: 13px; padding: 5px 10px; }
+  .audio-cell { width: 120px; }
+  audio { height: 28px; }
+}
+
+
+.header {
+  padding: 20px 40px;  /* TOP/RIGHT/BOTTOM/LEFT - adjust TOP/BOTTOM for height */
+  /* Current: 20px top + 20px bottom = 40px total height */
+}
+
+.title {
+  font-size: 26px;     /* Main title size */
+  margin-bottom: 1px;  /* Space below title */
+}
+
+.conference-tag {
+  font-size: 13px;     /* ACL 2026 size */
+}
