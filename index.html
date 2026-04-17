@@ -1,216 +1,335 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HealthCareFake: Pathological Speech Deepfake Samples</title>
+  <title>HCFD: A Benchmark for Audio Deepfake Detection in Healthcare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #fafbfc;
-      color: #1a202c;
-      line-height: 1.5;
-      padding: 20px;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
-    .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 24px 40px;
-      text-align: center;
-    }
-    .title { font-size: 28px; font-weight: 700; margin-bottom: 4px; line-height: 1.2; }
-    .conference-tag { font-size: 20px; opacity: 0.95; font-weight: 500; margin-top: 10px; }
-    .content { padding: 40px; }
-    .tldr-section { margin-bottom: 32px; }
-    .tldr-title { font-size: 18px; font-weight: 600; color: #2d3748; margin-bottom: 12px; }
-    .tldr-text { font-size: 15px; color: #4a5568; margin-bottom: 20px; }
-    .download-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #4299e1; color: white; padding: 12px 24px;
-      border-radius: 8px; text-decoration: none; font-weight: 500;
-      font-size: 15px; transition: background 0.2s;
-    }
-    .download-btn:hover { background: #3182ce; }
-    .samples-section { margin-bottom: 40px; }
-    .samples-title { font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #2d3748; }
-    .samples-desc { color: #4a5568; margin-bottom: 24px; font-size: 15px; }
-    table {
-      width: 100%; border-collapse: collapse; background: white;
-      border-radius: 8px; overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      font-size: 14px;
-    }
-    th {
-      background: #f7fafc; padding: 16px 12px; text-align: left;
-      font-weight: 600; color: #4a5568; font-size: 13px;
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    td { padding: 16px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
-    tr:hover { background: #f8faff; }
-    .audio-cell { width: 140px; }
-    audio { width: 100%; height: 32px; border-radius: 6px; }
-    .lang-pill {
-      display: inline-block; background: #e6fffa; color: #00a28b;
-      padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;
-    }
-    .footer {
-      background: #f7fafc; padding: 24px 40px; text-align: center;
-      font-size: 14px; color: #718096; border-top: 1px solid #e2e8f0;
-    }
-    @media (max-width: 768px) {
-      body { padding: 10px; }
-      .header { padding: 20px 20px; }
-      .title { font-size: 24px; }
-      .content { padding: 24px 20px; }
-      .audio-cell { width: 120px; }
-      audio { height: 28px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Sans 3', sans-serif; background: #fff; color: #2d2d2d; font-size: 17px; line-height: 1.7; }
+    a { color: #3273dc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 56px 0; }
+    section:nth-child(even) { background: #fafafa; }
+    hr { border: none; border-top: 1px solid #e8e8e8; margin: 0; }
+    .hero { padding: 72px 20px 56px; text-align: center; background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%); }
+    .venue-badge { display: inline-block; background: #f0f4ff; color: #3273dc; border: 1px solid #c8d8f8; border-radius: 999px; padding: 5px 16px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 22px; text-transform: uppercase; }
+    .paper-title { font-family: 'Source Serif 4', serif; font-size: clamp(1.85rem, 3.9vw, 2.9rem); font-weight: 700; line-height: 1.18; color: #111; max-width: 820px; margin: 0; }
+    .paper-title em { font-style: italic; }
+    .title-row { display: flex; align-items: center; justify-content: center; gap: 28px; max-width: 860px; margin: 0 auto 18px; text-align: left; }
+    .title-logo { width: 124px; height: 124px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.08)); }
+    .title-copy { flex: 1 1 auto; }
+    .authors { font-size: 1rem; color: #2d2d2d; margin-bottom: 8px; line-height: 1.8; font-weight: 600; }
+    .affiliations { font-size: 0.9rem; color: #6b7280; margin-bottom: 10px; }
+    .hero-meta { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 28px; color: #6b7280; font-size: 0.84rem; }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .hero-meta span:not(:last-child)::after { content: "|"; color: #b0b7c3; margin-left: 8px; }
+    .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 42px; }
+    .link-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 20px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; border: 2px solid #222; color: #222; background: #fff; transition: background 0.15s, color 0.15s; text-decoration: none; }
+    .link-btn:hover { background: #222; color: #fff; text-decoration: none; }
+    .link-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .hero-stage { max-width: 980px; margin: 0 auto; }
+    .hero-intro { max-width: 760px; margin: 0 auto 28px; text-align: center; }
+    .hero-lead { font-size: 1.02rem; line-height: 1.8; color: #485264; margin-bottom: 18px; }
+    .hero-points { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; color: #5f6775; font-size: 0.9rem; }
+    .hero-point { position: relative; padding-left: 14px; }
+    .hero-point::before { content: ""; position: absolute; left: 0; top: 0.58rem; width: 6px; height: 6px; border-radius: 50%; background: #3273dc; }
+    .hero-figure { border: 1px solid #e5e7eb; border-radius: 18px; background: #fff; padding: 22px 24px 18px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05); }
+    .figure-label { text-align: center; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #3273dc; margin-bottom: 16px; }
+    .pipeline { display: grid; grid-template-columns: 1fr 80px 1fr 80px 1.15fr; gap: 8px; align-items: center; }
+    .figure-box { border: 1px solid #d9dee8; border-radius: 12px; background: #fff; padding: 16px 14px; min-height: 180px; text-align: left; }
+    .figure-box.output-box { background: #fafcff; }
+    .figure-kicker { display: inline-block; margin-bottom: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #3273dc; }
+    .figure-title { font-size: 1rem; font-weight: 700; color: #111; margin-bottom: 8px; }
+    .figure-text { font-size: 0.84rem; line-height: 1.6; color: #4b5563; }
+    .figure-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .figure-tag { display: inline-block; font-size: 0.71rem; padding: 3px 8px; border-radius: 999px; background: #f1f5f9; color: #506070; }
+    .arrow-col { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+    .arrow-line { width: 100%; height: 2px; background: linear-gradient(90deg, #cfd8e6 0%, #3273dc 100%); position: relative; }
+    .arrow-line::after { content: ""; position: absolute; right: -1px; top: -4px; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 8px solid #3273dc; }
+    .arrow-text { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; color: #6b7280; text-transform: uppercase; text-align: center; }
+    .output-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .output-node { border: 1px solid #d8e0ee; border-radius: 10px; background: #fff; padding: 10px; }
+    .output-node-head { font-size: 0.71rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #3273dc; margin-bottom: 4px; }
+    .output-node-body { font-size: 0.8rem; color: #4b5563; line-height: 1.45; }
+    .figure-caption { font-size: 0.87rem; color: #5f6775; line-height: 1.7; max-width: 760px; margin: 16px auto 0; text-align: center; }
+    .section-heading { font-family: 'Source Serif 4', serif; font-size: 1.55rem; font-weight: 700; color: #111; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #111; }
+    .abstract-text { font-size: 0.97rem; line-height: 1.85; color: #333; max-width: 760px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .tag { display: inline-block; padding: 3px 12px; border-radius: 4px; font-size: 0.78rem; font-weight: 600; background: #f0f0f0; color: #444; }
+    .contrib-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .contrib-list li { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; font-size: 0.93rem; color: #333; }
+    .contrib-list li:hover { border-color: #3273dc; }
+    .contrib-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .method-steps { display: flex; flex-direction: column; border: 1px solid #e8e8e8; border-radius: 8px; overflow: hidden; margin-bottom: 28px; }
+    .method-step { display: flex; align-items: flex-start; gap: 16px; padding: 18px 22px; border-bottom: 1px solid #e8e8e8; background: #fff; font-size: 0.92rem; }
+    .method-step:last-child { border-bottom: none; }
+    .method-step:hover { background: #f8f9ff; }
+    .step-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: #3273dc; color: #fff; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+    .method-step h4 { font-size: 0.93rem; font-weight: 700; margin-bottom: 3px; color: #111; }
+    .method-step p { color: #555; line-height: 1.6; }
+    .eq-box { background: #f5f7fb; border-left: 3px solid #3273dc; border-radius: 0 6px 6px 0; padding: 14px 20px; font-size: 0.88rem; color: #333; margin: 16px 0; font-family: 'Courier New', monospace; overflow-x: auto; }
+    .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 20px; }
+    .comp-card, .ds-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 18px; }
+    .comp-card .comp-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; color: #3273dc; text-transform: uppercase; margin-bottom: 6px; }
+    .comp-card h4, .ds-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; color: #111; }
+    .comp-card p, .ds-card p { font-size: 0.82rem; color: #666; line-height: 1.55; }
+    .results-note { font-size: 0.88rem; color: #666; margin-bottom: 16px; line-height: 1.6; }
+    .table-wrap, .sample-table-wrap, .ablation-table-wrap { overflow-x: auto; margin-bottom: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    thead th { background: #f0f0f0; font-weight: 700; padding: 10px 12px; text-align: center; border: 1px solid #ddd; color: #222; white-space: nowrap; }
+    thead th:first-child { text-align: left; }
+    tbody td { padding: 9px 12px; text-align: center; border: 1px solid #e8e8e8; color: #444; vertical-align: middle; }
+    tbody td:first-child { text-align: left; font-weight: 600; color: #222; }
+    tbody tr:hover td { background: #f9f9f9; }
+    td.best { font-weight: 700; color: #1a7f3c; }
+    td.good { font-weight: 600; color: #3273dc; }
+    .table-caption { font-size: 0.82rem; color: #777; margin-top: 8px; line-height: 1.5; }
+    .abl-bar-cell { min-width: 160px; }
+    .bar-bg { background: #eee; border-radius: 4px; height: 18px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; background: #3273dc; }
+    .bar-fill.best { background: #1a7f3c; }
+    .bar-fill.mid { background: #e8a020; }
+    .bar-fill.low { background: #cc3333; }
+    .ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+    .ds-card .ds-lang { font-size: 0.75rem; font-weight: 700; color: #3273dc; margin-bottom: 6px; display: block; }
+    .ds-role { display: inline-block; margin-top: 8px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
+    .role-src { background: #e6f4ea; color: #1a7f3c; }
+    .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-bottom: 14px; align-items: end; }
+    .toolbar label { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; font-weight: 600; color: #333; }
+    .toolbar select { min-width: 220px; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font: inherit; background: #fff; }
+    .toolbar-note { font-size: 0.84rem; color: #666; }
+    audio { width: 180px; height: 34px; }
+    .condition-pill { display: inline-block; padding: 3px 10px; border-radius: 999px; background: #eef4ff; color: #3273dc; font-size: 0.76rem; font-weight: 700; }
+    .missing { color: #999; font-size: 0.82rem; }
+    .bibtex-wrap { position: relative; background: #f5f5f5; border: 1px solid #ddd; border-radius: 8px; padding: 22px 24px; font-family: 'Courier New', monospace; font-size: 0.83rem; color: #333; line-height: 1.75; overflow-x: auto; }
+    .copy-btn { position: absolute; top: 12px; right: 12px; background: #fff; border: 1px solid #ccc; border-radius: 5px; padding: 4px 12px; font-size: 0.78rem; font-weight: 600; cursor: pointer; color: #444; transition: all 0.15s; }
+    .copy-btn:hover { background: #3273dc; color: #fff; border-color: #3273dc; }
+    footer { background: #f5f5f5; border-top: 1px solid #e8e8e8; padding: 32px 20px; text-align: center; font-size: 0.83rem; color: #888; }
+    footer a { color: #3273dc; }
+    @media (max-width: 600px) {
+      .paper-title { font-size: 1.55rem; }
+      .title-row { flex-direction: column; text-align: center; gap: 14px; }
+      .title-logo { width: 88px; height: 88px; }
+      .hero-meta { display: flex; flex-direction: column; gap: 6px; }
+      .hero-meta span:not(:last-child)::after { display: none; }
+      .links { gap: 8px; }
+      .link-btn { padding: 7px 14px; font-size: 0.82rem; }
+      .pipeline { grid-template-columns: 1fr; }
+      .arrow-col { display: none; }
+      .output-pair { grid-template-columns: 1fr; }
+      audio { width: 150px; }
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="title">HealthCareFake: Pathological Speech Deepfake Samples</div>
-      <div class="conference-tag">ACL 2026</div>
-    </div>
-
-    <div class="content">
-      <div class="tldr-section">
-        <div class="tldr-title">TL;DR</div>
-        <div class="tldr-text">
-          We release real and codec-generated samples for deepfake detection under pathological speech conditions.
-        </div>
-        <a href="#" class="download-btn">📦 Dataset will be available on Hugging Face</a>
-      </div>
-
-      <div class="samples-section">
-        <div class="samples-title">Fake and Real Speech Samples</div>
-        <div class="samples-desc">
-          Each ground truth recording is paired with its deepfake version from clinical datasets.
-        </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Codec Model Used</th>
-              <th>GT File ID</th>
-              <th>GT Speech</th>
-              <th>Generated Speech</th>
-              <th>Clinical Condition</th>
-            </tr>
-          </thead>
-          <tbody id="samples-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="footer">
-      Acknowledgment: Built using clinical datasets. © 2026 Authors
+<div class="hero">
+  <div class="venue-badge">ACL 2026 Findings</div>
+  <div class="title-row">
+    <img src="image/phoenix.png" alt="PHOENIX-Mamba illustration" class="title-logo" />
+    <div class="title-copy">
+      <h1 class="paper-title"><em>HCFD</em>: A Benchmark for Audio Deepfake Detection in Healthcare</h1>
     </div>
   </div>
+  <div class="authors">Mohd Mujtaba Akhtar<sup>*</sup> &nbsp;&nbsp; Girish<sup>*</sup> &nbsp;&nbsp; Muskaan Singh</div>
+  <div class="affiliations"><sup>*</sup>Equal Contribution &nbsp;·&nbsp; Accepted to Findings of ACL 2026</div>
+  <div class="hero-meta">
+    <span>Healthcare CodecFake benchmark</span>
+    <span>PHOENIX-Mamba</span>
+    <span>Pathology-aware audio deepfake detection</span>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Paper</a>
+    <a class="link-btn" href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>Code (Coming Soon)</a>
+    <a class="link-btn" href="#samples"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 6 15 11 19 18 15 18 9 11 5"/><line x1="11" y1="12" x2="18" y2="9"/><line x1="11" y1="12" x2="11" y2="19"/><line x1="11" y1="12" x2="6" y2="9"/></svg>Audio Samples</a>
+  </div>
+  <div class="hero-stage">
+    <div class="hero-intro">
+      <p class="hero-lead">
+        HCFD studies what happens when clinically meaningful pathological speech is passed through modern neural audio codecs.
+        The benchmark keeps each original utterance aligned with its codec-generated counterpart, exposing deepfake detectors to
+        disease-driven acoustic variability instead of only healthy-speech conditions.
+      </p>
+      <div class="hero-points">
+        <div class="hero-point">Depression, Alzheimer's disease, and dysarthria</div>
+        <div class="hero-point">English and Chinese healthcare speech corpora</div>
+        <div class="hero-point">Real and spoof paired samples for HCFD</div>
+      </div>
+    </div>
 
-  <script>
-    // ✅ Put your actual manifest filename/path here.
-    // If your file is named "menifest.js", change it to "./menifest.js"
-    const MANIFEST_SRC = "audio/manifest.js";
-
-    function showTableMessage(msg, color = "#e53e3e") {
-      const tbody = document.getElementById("samples-tbody");
-      tbody.innerHTML = "";
+    <div class="hero-figure">
+      <div class="figure-label">HCFD Data Construction Pipeline</div>
+      <div class="pipeline">
+        <div class="figure-box">
+          <div class="figure-kicker">Input Audio</div>
+          <div class="figure-title">Pathological Clinical Speech</div>
+          <div class="figure-text">
+            Source utterances are collected from healthcare speech benchmarks covering multiple conditions and two languages.
+          </div>
+          <div class="figure-tags">
+            <span class="figure-tag">DAIC-WOZ</span>
+            <span class="figure-tag">ADReSS</span>
+            <span class="figure-tag">TORGO</span>
+            <span class="figure-tag">EATD</span>
+            <span class="figure-tag">NCMMSC</span>
+            <span class="figure-tag">CDSD</span>
+          </div>
+        </div>
+        <div class="arrow-col">
+          <div class="arrow-line"></div>
+          <div class="arrow-text">Resynthesis</div>
+        </div>
+        <div class="figure-box">
+          <div class="figure-kicker">Codec Stage</div>
+          <div class="figure-title">Neural Audio Codec Transformation</div>
+          <div class="figure-text">
+            Each utterance is encoded into discrete codec tokens and decoded back into waveform space, introducing codec artifacts while preserving the clinical content.
+          </div>
+          <div class="figure-tags">
+            <span class="figure-tag">Encodec</span>
+            <span class="figure-tag">DAC</span>
+            <span class="figure-tag">SNAC</span>
+            <span class="figure-tag">SpeechTokenizer</span>
+          </div>
+        </div>
+        <div class="arrow-col">
+          <div class="arrow-line"></div>
+          <div class="arrow-text">Pairing</div>
+        </div>
+        <div class="figure-box output-box">
+          <div class="figure-kicker">Output Audio</div>
+          <div class="figure-title">Real and Spoof Paired Samples</div>
+          <div class="figure-text">
+            HCFD retains the original pathological waveform together with its codec-generated spoof counterpart for condition-aware deepfake detection.
+          </div>
+          <div class="output-pair">
+            <div class="output-node">
+              <div class="output-node-head">Real Audio</div>
+              <div class="output-node-body">Original pathological utterance</div>
+            </div>
+            <div class="output-node">
+              <div class="output-node-head">Spoof Audio</div>
+              <div class="output-node-body">Codec-generated paired sample</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="figure-caption">
+        The benchmark is constructed through a controlled codec resynthesis loop, making HCFD suitable for studying deepfake detection under clinically realistic speech variability.
+      </p>
+    </div>
+  </div>
+</div>
+<hr/>
+<section id="abstract"><div class="container"><h2 class="section-heading">Abstract</h2><p class="abstract-text">In this study, we present <strong>Healthcare CodecFake Detection (HCFD)</strong>, a new task for detecting codec-fakes under pathological speech conditions. We release the <strong>HCFD benchmark</strong>, a pathology-aware dataset containing paired real and neural-audio-codec-synthesized speech across multiple clinical conditions and codec families. Our evaluations show that state-of-the-art codec-fake detectors trained primarily on healthy speech perform poorly on HCFD, highlighting the need for healthcare-specific modeling.</p><br/><p class="abstract-text">We compare diverse pretrained audio encoders and show that <strong>PaSST</strong> is the strongest single-representation baseline for HCFD. Building on that, we propose <strong>PHOENIX-Mamba</strong>, a geometry-aware framework that uses long-context sequence modeling, multiple localized evidence vectors, and prototype-based reasoning in hyperbolic space to capture heterogeneous codec-fake modes in clinical speech.</p><br/><p class="abstract-text">Experiments across depression, Alzheimer's disease, and dysarthria in both English and Chinese show consistent gains over AASIST and strong pretrained-model baselines. With PaSST, PHOENIX-Mamba achieves the best reported accuracies: 97.04, 96.73, and 96.57 on the English tasks, and 94.41, 94.40, and 93.20 on the Chinese tasks.</p><div class="tag-row"><span class="tag">Audio Deepfake Detection</span><span class="tag">Healthcare Speech</span><span class="tag">Pathological Speech</span><span class="tag">Neural Audio Codecs</span><span class="tag">Hyperbolic Geometry</span><span class="tag">Mamba</span><span class="tag">ACL 2026 Findings</span></div></div></section>
+<hr/>
+<section id="idea"><div class="container"><h2 class="section-heading">Key Contributions</h2><ul class="contrib-list"><li><div class="contrib-icon">1</div><div>We introduce <strong>HCFD</strong>, a benchmark task for codec-fake detection in healthcare speech under pathological speech variability.</div></li><li><div class="contrib-icon">2</div><div>We build the <strong>HCFD benchmark</strong>, pairing bona fide pathological recordings with codec-resynthesized counterparts across multiple clinical conditions and two languages.</div></li><li><div class="contrib-icon">3</div><div>We benchmark standard codec-fake detectors and pretrained encoders, showing major transfer failures from healthy-speech deepfake benchmarks.</div></li><li><div class="contrib-icon">4</div><div>We propose <strong>PHOENIX-Mamba</strong>, which combines selective state-space modeling, multi-evidence pooling, and hyperbolic multi-prototype reasoning.</div></li></ul></div></section>
+<hr/>
+<section id="method"><div class="container"><h2 class="section-heading">Method</h2><p style="color:#444; margin-bottom:22px; font-size:0.95rem; line-height:1.8;">PHOENIX-Mamba is designed for healthcare codec-fake detection where codec traces and pathological speech variability interact. The core idea is to avoid collapsing an utterance into a single pooled vector and instead retain multiple localized evidences, then organize fake evidence in hyperbolic space with self-discovered prototype modes.</p><div class="method-steps"><div class="method-step"><div class="step-num">1</div><div><h4>Pretrained audio representation</h4><p>Input speech is encoded by frozen upstream models such as WavLM, wav2vec 2.0, Whisper, x-vector, or PaSST. The paper finds PaSST to be the strongest single-representation encoder for HCFD.</p></div></div><div class="method-step"><div class="step-num">2</div><div><h4>Mamba-style temporal backbone</h4><p>Token-wise adapted features are passed through a selective state-space backbone to build context-enriched representations over longer pathological utterances.</p></div></div><div class="method-step"><div class="step-num">3</div><div><h4>Multi-evidence pooling</h4><p>Rather than keeping only one pooled summary, PHOENIX-Mamba learns multiple evidence vectors so intermittent codec artifacts can still influence the final decision.</p></div></div><div class="method-step"><div class="step-num">4</div><div><h4>Hyperbolic multi-mode reasoning</h4><p>Evidence vectors are projected into a Poincare ball and classified against one real prototype and multiple fake prototypes, allowing the model to capture heterogeneous codec-fake modes.</p></div></div><div class="method-step"><div class="step-num">5</div><div><h4>Geometry-aware training objective</h4><p>Cross-entropy is combined with clustering and separation losses so positive prototypes remain compact, distinct, and sensitive to diverse fake artifact patterns.</p></div></div></div><p style="font-size:0.9rem; color:#444; margin-bottom:14px; font-weight:600;">Training Objective</p><div class="eq-box">L = L_cls + lambda_cluster * L_cluster + lambda_sep * L_sep</div><p style="font-size:0.83rem; color:#666; margin-bottom:24px;">The framework uses one negative prototype, multiple positive prototypes, evidence pooling with M = 4, hyperbolic embedding dimension h = 128, and optimized classification plus geometry-aware regularization.</p><div class="comp-grid"><div class="comp-card"><div class="comp-tag">Task</div><h4>Healthcare CodecFake Detection</h4><p>Binary real-vs-fake detection under clinically realistic pathological speech variability.</p></div><div class="comp-card"><div class="comp-tag">Backbone</div><h4>Selective SSM</h4><p>A Mamba-style sequence model captures long-context evidence beyond shallow pooled baselines.</p></div><div class="comp-card"><div class="comp-tag">Evidence</div><h4>Multi-evidence pooling</h4><p>The model keeps several localized cues rather than relying on one utterance-level embedding.</p></div><div class="comp-card"><div class="comp-tag">Geometry</div><h4>Hyperbolic prototypes</h4><p>One real prototype and several fake prototypes model heterogeneous codec-fake modes.</p></div><div class="comp-card"><div class="comp-tag">Best PTM</div><h4>PaSST</h4><p>PaSST produces the best single-encoder baseline and the strongest PHOENIX-Mamba results.</p></div><div class="comp-card"><div class="comp-tag">Goal</div><h4>Robust clinical transfer</h4><p>The architecture is built to separate codec-induced evidence from pathology-related acoustic variability.</p></div></div></div></section>
+<hr/>
+<section id="results"><div class="container"><h2 class="section-heading">Results</h2><p style="font-size:1rem; font-weight:700; margin-bottom:6px; color:#111;">Table 1: Generalization of prior codec-deepfake detectors to healthcare speech</p><p class="results-note">AASIST trained on standard CodecFake data transfers poorly to pathological healthcare speech. Training on in-domain healthcare data helps, and wav2vec 2.0 features help further, but a large gap remains.</p><div class="table-wrap"><table><thead><tr><th rowspan="2">Method</th><th colspan="2">English Dep</th><th colspan="2">English Alz</th><th colspan="2">English Dys</th></tr><tr><th>Acc</th><th>F1</th><th>Acc</th><th>F1</th><th>Acc</th><th>F1</th></tr></thead><tbody><tr><td>AASIST (Tr. on CF)</td><td>48.62</td><td>44.03</td><td>34.19</td><td>32.51</td><td>36.71</td><td>34.39</td></tr><tr><td>AASIST (Tr. on Indi. Data)</td><td>60.84</td><td>57.92</td><td>52.14</td><td>49.93</td><td>56.07</td><td>54.49</td></tr><tr><td>AASIST (wav2vec 2.0)</td><td class="good">63.55</td><td class="good">51.29</td><td class="good">57.76</td><td class="good">54.98</td><td class="good">59.35</td><td class="good">57.16</td></tr></tbody></table></div><p class="table-caption">The healthy-speech deepfake setting does not transfer cleanly to pathological speech. Alzheimer's is especially difficult.</p><br/><p style="font-size:1rem; font-weight:700; margin-bottom:6px; color:#111;">Table 2: PHOENIX-Mamba with PaSST achieves the strongest reported scores</p><p class="results-note">The paper reports PHOENIX-Mamba gains across encoders, with the strongest final numbers coming from the PaSST setup.</p><div class="table-wrap"><table><thead><tr><th>Setting</th><th>Depression</th><th>Alzheimer's</th><th>Dysarthria</th></tr></thead><tbody><tr><td>English PHOENIX-Mamba (PaSST)</td><td class="best">97.04</td><td class="best">96.73</td><td class="best">96.57</td></tr><tr><td>Chinese PHOENIX-Mamba (PaSST)</td><td class="best">94.41</td><td class="best">94.40</td><td class="best">93.20</td></tr><tr><td>English PaSST baseline (CNN)</td><td class="good">78.98</td><td class="good">67.94</td><td class="good">71.03</td></tr><tr><td>Chinese PaSST baseline (CNN)</td><td class="good">75.69</td><td class="good">65.71</td><td class="good">67.36</td></tr></tbody></table></div><p class="table-caption">PHOENIX-Mamba contributes large gains beyond the strongest single-representation baseline, especially under clinical variability.</p></div></section>
+<hr/>
+<section id="ablation"><div class="container"><h2 class="section-heading">Ablation Study</h2><p class="results-note">The paper's ablations show that sequence modeling, multi-evidence pooling, and hyperbolic reasoning all matter. Removing any of them hurts performance substantially.</p><div class="table-wrap ablation-table-wrap"><table><thead><tr><th style="text-align:left">Configuration</th><th>English Dep Acc</th><th>English Alz Acc</th><th>English Dys Acc</th><th class="abl-bar-cell" style="text-align:left; padding-left:12px;">Relative Strength</th></tr></thead><tbody><tr><td><strong>PHOENIX-Mamba (Full)</strong></td><td class="best">97.04</td><td class="best">96.73</td><td class="best">96.05</td><td><div class="bar-bg"><div class="bar-fill best" style="width:100%"></div></div></td></tr><tr><td>PHOENIX-Euc</td><td class="good">83.62</td><td class="good">79.48</td><td class="good">84.72</td><td><div class="bar-bg"><div class="bar-fill" style="width:86%"></div></div></td></tr><tr><td>BiGRU Head</td><td>87.69</td><td>82.86</td><td>86.61</td><td><div class="bar-bg"><div class="bar-fill" style="width:89%"></div></div></td></tr><tr><td>CNN Head</td><td>82.26</td><td>75.52</td><td>79.37</td><td><div class="bar-bg"><div class="bar-fill mid" style="width:82%"></div></div></td></tr><tr><td>Single evidence (M = 1)</td><td>73.51</td><td>55.03</td><td>67.94</td><td><div class="bar-bg"><div class="bar-fill low" style="width:67%"></div></div></td></tr></tbody></table></div><p class="table-caption" style="margin-top:10px;">The largest degradation comes from collapsing the utterance to a single evidence vector. Hyperbolic multi-mode reasoning also gives a clear boost over Euclidean reasoning.</p></div></section>
+<hr/>
+<section id="datasets"><div class="container"><h2 class="section-heading">Datasets</h2><p style="color:#555; font-size:0.93rem; margin-bottom:20px; line-height:1.7;">HCFD covers three clinical conditions in two languages and preserves official split protocols while generating paired codec-synthesized speech.</p><div class="ds-grid"><div class="ds-card"><span class="ds-lang">English · Depression</span><h4>DAIC-WOZ</h4><p>Semi-structured clinical interviews used as bona fide speech for depression-oriented HCFD evaluation.</p><span class="ds-role role-src">Source recordings</span></div><div class="ds-card"><span class="ds-lang">Chinese · Depression</span><h4>EATD-Corpus</h4><p>Interview-style Mandarin responses with depression annotations, converted into paired real and codec-generated speech.</p><span class="ds-role role-src">Source recordings</span></div><div class="ds-card"><span class="ds-lang">English · Alzheimer's</span><h4>ADReSS / ADReSSo</h4><p>Standardized Cookie Theft picture-description recordings used for Alzheimer's-related detection experiments.</p><span class="ds-role role-src">Source recordings</span></div><div class="ds-card"><span class="ds-lang">Chinese · Alzheimer's</span><h4>NCMMSC</h4><p>Mandarin dementia benchmark with clinically annotated recordings for cognitive impairment assessment.</p><span class="ds-role role-src">Source recordings</span></div><div class="ds-card"><span class="ds-lang">English · Dysarthria</span><h4>TORGO</h4><p>Speech from individuals with dysarthria, used to test detector robustness under motor-speech variability.</p><span class="ds-role role-src">Source recordings</span></div><div class="ds-card"><span class="ds-lang">Chinese · Dysarthria</span><h4>CDSD</h4><p>Large-scale Mandarin dysarthric speech corpus, approximately 133 hours, paired with codec-resynthesized speech.</p><span class="ds-role role-src">Source recordings</span></div></div></div></section>
+<hr/>
+<section id="samples"><div class="container"><h2 class="section-heading">Audio Samples</h2><p class="results-note">Sample rows below are loaded from <code>audio/manifest.js</code>. Each row pairs a bona fide pathological recording with its codec-generated counterpart.</p><div class="toolbar"><label>Clinical condition<select id="condition-filter"><option value="all">All conditions</option></select></label><div class="toolbar-note" id="samples-count">Waiting for manifest...</div></div><div class="sample-table-wrap"><table><thead><tr><th>Codec</th><th>Ground Truth ID</th><th>GT Speech</th><th>Generated Speech</th><th>Condition</th></tr></thead><tbody id="samples-tbody"></tbody></table></div><p class="table-caption">The current repository only includes the manifest file. Audio playback will work once the referenced waveform files are added.</p></div></section>
+<hr/>
+<section id="citation"><div class="container"><h2 class="section-heading">Citation</h2><p style="color:#555; font-size:0.93rem; margin-bottom:18px;">If you use HCFD, cite the paper as follows:</p><div class="bibtex-wrap" id="bib"><button class="copy-btn" onclick="copyBib()">Copy BibTeX</button><span style="color:#888">@inproceedings</span>{hcfd-acl2026,
+  <span style="color:#3273dc">title</span>     = {HCFD: A Benchmark for Audio Deepfake Detection in Healthcare},
+  <span style="color:#3273dc">author</span>    = {Mohd Mujtaba Akhtar and Girish and Muskaan Singh},
+  <span style="color:#3273dc">booktitle</span> = {Findings of the Association for Computational Linguistics: ACL 2026},
+  <span style="color:#3273dc">year</span>      = {2026},
+  <span style="color:#3273dc">pages</span>     = {TBD},
+}</div><p style="font-size:0.8rem; color:#999; margin-top:10px;">Update page numbers in the citation once the proceedings version is finalized.</p></div></section>
+<footer><div class="container"><p style="margin-bottom:6px;"><strong>HCFD</strong> · Healthcare CodecFake Detection for pathological speech</p><p>HCFD benchmark · PHOENIX-Mamba · Audio samples and project assets coming soon</p><p style="margin-top:10px; font-size:0.78rem;">Accepted to Findings of ACL 2026.</p></div></footer>
+<script>
+  const MANIFEST_SRC = "audio/manifest.js";
+  let manifestData = [];
+  function escapeHtml(str) { return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;"); }
+  function renderSampleMessage(message) {
+    const tbody = document.getElementById("samples-tbody");
+    tbody.innerHTML = `<tr><td colspan="5">${escapeHtml(message)}</td></tr>`;
+    document.getElementById("samples-count").textContent = message;
+  }
+  function populateConditionFilter(data) {
+    const select = document.getElementById("condition-filter");
+    const conditions = [...new Set(data.map((item) => item.condition).filter(Boolean))].sort();
+    for (const condition of conditions) {
+      const option = document.createElement("option");
+      option.value = condition;
+      option.textContent = condition;
+      select.appendChild(option);
+    }
+    select.addEventListener("change", () => renderSamples(select.value));
+  }
+  function renderSamples(condition = "all") {
+    const rows = manifestData.filter((item) => condition === "all" || item.condition === condition);
+    const tbody = document.getElementById("samples-tbody");
+    tbody.innerHTML = "";
+    if (!rows.length) {
+      renderSampleMessage("No samples found for the selected condition.");
+      return;
+    }
+    for (const item of rows) {
       const tr = document.createElement("tr");
-      const td = document.createElement("td");
-      td.colSpan = 5;
-      td.style.color = color;
-      td.style.whiteSpace = "pre-wrap";
-      td.textContent = msg;
-      tr.appendChild(td);
+      tr.innerHTML = `
+        <td>${escapeHtml(item.codec || "-")}</td>
+        <td>${escapeHtml(item.gt_id || "-")}</td>
+        <td>${item.gt_url ? `<audio controls preload="none"><source src="${escapeHtml(item.gt_url)}" type="audio/wav"></audio>` : `<span class="missing">Missing</span>`}</td>
+        <td>${item.gen_url ? `<audio controls preload="none"><source src="${escapeHtml(item.gen_url)}" type="audio/wav"></audio>` : `<span class="missing">Missing</span>`}</td>
+        <td><span class="condition-pill">${escapeHtml(item.condition || "-")}</span></td>
+      `;
       tbody.appendChild(tr);
     }
-
-    function renderFromManifest() {
-      const manifest = Array.isArray(window.MANIFEST_RAW) ? window.MANIFEST_RAW : null;
-
-      if (!manifest) {
-        showTableMessage(
-          "manifest.js loaded, but window.MANIFEST_RAW is not set.\n" +
-          "Fix manifest.js to include: window.MANIFEST_RAW = [ ... ];"
-        );
+    document.getElementById("samples-count").textContent = `${rows.length} sample${rows.length === 1 ? "" : "s"} shown`;
+  }
+  function copyBib() {
+    const raw = `@inproceedings{hcfd-acl2026,
+  title     = {HCFD: A Benchmark for Audio Deepfake Detection in Healthcare},
+  author    = {Mohd Mujtaba Akhtar and Girish and Muskaan Singh},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2026},
+  year      = {2026},
+  pages     = {TBD}
+}`;
+    navigator.clipboard.writeText(raw).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.style.background = '#1a7f3c';
+      btn.style.color = '#fff';
+      btn.style.borderColor = '#1a7f3c';
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.style.background = '';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 2000);
+    });
+  }
+  (function loadManifest() {
+    const script = document.createElement("script");
+    script.src = MANIFEST_SRC;
+    script.onload = () => {
+      const raw = Array.isArray(window.MANIFEST_RAW) ? window.MANIFEST_RAW : null;
+      if (!raw) {
+        renderSampleMessage("Manifest loaded, but window.MANIFEST_RAW is missing.");
         return;
       }
-
-      if (manifest.length === 0) {
-        showTableMessage("MANIFEST_RAW exists, but it is empty.", "#718096");
-        return;
-      }
-
-      const tbody = document.getElementById("samples-tbody");
-      tbody.innerHTML = "";
-
-      for (const item of manifest) {
-        // ✅ only use the 5 fields needed for the table UI
-        const codec = item.codec;
-        const gt_id = item.gt_id;
-        const gt_url = item.gt_url;
-        const gen_url = item.gen_url;
-        const condition = item.condition;
-
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${escapeHtml(codec || "—")}</td>
-          <td>${escapeHtml(gt_id || "—")}</td>
-          <td class="audio-cell">
-            ${gt_url ? `<audio controls preload="none"><source src="${escapeAttr(gt_url)}" type="audio/wav"></audio>`
-                    : `<span style="color:#a0aec0">Missing</span>`}
-          </td>
-          <td class="audio-cell">
-            ${gen_url ? `<audio controls preload="none"><source src="${escapeAttr(gen_url)}" type="audio/wav"></audio>`
-                     : `<span style="color:#a0aec0">Missing</span>`}
-          </td>
-          <td><span class="lang-pill">${escapeHtml(condition || "—")}</span></td>
-        `;
-        tbody.appendChild(tr);
-      }
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-    function escapeAttr(str) { return escapeHtml(str); }
-
-    // Load manifest dynamically so we can report the exact URL and errors
-    (function loadManifest() {
-      const s = document.createElement("script");
-      s.src = MANIFEST_SRC;
-      s.onload = () => {
-        console.log("✅ Loaded:", s.src);
-        console.log("window.MANIFEST_RAW =", window.MANIFEST_RAW);
-        renderFromManifest();
-      };
-      s.onerror = () => {
-        showTableMessage(
-          "❌ Failed to load manifest script.\n" +
-          "Tried URL: " + s.src + "\n\n" +
-          "Fix: set MANIFEST_SRC to the correct path/filename.\n" +
-          "Example: './menifest.js' or './js/manifest.js'"
-        );
-      };
-      document.body.appendChild(s);
-    })();
-  </script>
+      manifestData = raw;
+      populateConditionFilter(manifestData);
+      renderSamples();
+    };
+    script.onerror = () => {
+      renderSampleMessage(`Failed to load manifest at ${MANIFEST_SRC}.`);
+    };
+    document.body.appendChild(script);
+  })();
+</script>
 </body>
 </html>
+
+
