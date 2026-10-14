@@ -1,0 +1,22 @@
+model:
+  audio_dim: 512
+  hidden_dim: 512
+  num_modes: 8
+  dropout: 0.3
+
+training:
+  batch_size: 32
+  epochs: 50
+  learning_rate: 1e-4
+  weight_decay: 1e-2
+
+data:
+  sample_rate: 16000
+  clinical_conditions:
+    - Depression
+    - Alzheimers
+    - Dysarthria
+    - Parkinsonian
+
+device: cuda
+seed: 42
